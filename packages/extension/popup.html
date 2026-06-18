@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <h1>Cadence <span class="tag">MVP</span></h1>
+    <p class="hint">Click into a text box on the page first, then come back and press <b>Type it</b>.</p>
+
+    <textarea id="text" rows="5" placeholder="Paste or type the text you want entered in your cadence..."></textarea>
+
+    <div class="row">
+      <label>Load
+        <select id="load">
+          <option value="light" selected>Light (chat)</option>
+          <option value="medium">Medium (email)</option>
+          <option value="heavy">Heavy (paper)</option>
+        </select>
+      </label>
+      <label>Speed
+        <select id="speed">
+          <option value="0.3">Fast 0.3×</option>
+          <option value="0.6">Quick 0.6×</option>
+          <option value="1" selected>Realtime 1×</option>
+        </select>
+      </label>
+    </div>
+
+    <button id="go">Type it</button>
+    <p id="status" class="status">Using the bundled example profile.</p>
+
+    <script type="module" src="popup.js"></script>
+  </body>
+</html>

@@ -1,0 +1,22 @@
+// Bundled example profile for the MVP. Mirrors ../../schema/example-profile.json.
+// Replace this with a real profile once the calibration app exists.
+export const DEFAULT_PROFILE = {
+  version: '1.0.0',
+  meta: { id: 'prf_example', createdAt: '2026-06-17T18:00:00.000Z', layout: 'qwerty-us', locale: 'en-US' },
+  speed: { baseWpm: 78, meanInterKeyMs: 138, stdInterKeyMs: 46 },
+  bigrams: {
+    th: 95, he: 88, in: 102, er: 110, an: 105, re: 112,
+    on: 120, at: 108, en: 115, nd: 130, ed: 145, ng: 125,
+  },
+  trigrams: { the: 250, ing: 270, and: 280, ion: 300 },
+  dwell: { meanMs: 92, stdMs: 18, perKeyReachMs: { p: 14, q: 22, z: 20, '-': 26, '=': 30, '0': 18, '5': 16 } },
+  errors: {
+    ratePer100: 3.1,
+    correctionStyle: { singleBackspace: 0.45, backspaceSpam: 0.15, ctrlBackspaceWord: 0.35, selectRetype: 0.05 },
+    correctionDelayMs: { mean: 240, std: 120, noticeScope: 'end-of-word' },
+    typoMix: { adjacent: 0.6, transposition: 0.2, doubleLetter: 0.1, droppedLetter: 0.1 },
+  },
+  rhythm: { burstLengthWords: { mean: 4.2, std: 1.6 }, interBurstPauseMs: { mean: 420, std: 210 } },
+  cognitive: { lexicalHesitationMs: 180, sentenceEndPauseMs: 650, midPunctuationPauseMs: 220, capShiftMs: 60, shiftHandBias: 'right' },
+  fatigue: { decayRatePerKChar: 0.12, errorGrowthPerKChar: 0.15, recoveryOnPause: 0.4 },
+};
