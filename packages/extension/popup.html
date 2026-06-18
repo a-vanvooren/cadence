@@ -28,7 +28,21 @@
       </label>
     </div>
 
-    <button id="go">Type it</button>
+    <label class="switch">
+      <input type="checkbox" id="whisper" />
+      <span class="switch-track"><span class="switch-thumb"></span></span>
+      <span class="switch-label">Whisper Mode</span>
+    </label>
+    <p id="whisper-hint" class="whisper-hint" hidden>
+      Discreet: no on-screen markers or Stop button. Focus a field and press
+      <b id="hotkey">Ctrl+Shift+Y</b> to type your clipboard at the cursor.
+      Stop from here.
+    </p>
+
+    <div class="buttons">
+      <button id="go">Type it</button>
+      <button id="stop" class="secondary">Stop</button>
+    </div>
     <p id="status" class="status">Click into a text field on the page, then press “Type it”.</p>
 
     <div class="footer">

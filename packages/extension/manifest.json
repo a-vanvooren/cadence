@@ -1,9 +1,13 @@
 {
   "manifest_version": 3,
   "name": "Cadence (MVP)",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Calibrate your typing, then insert text into the focused field in your own cadence. No build step — load unpacked.",
-  "permissions": ["activeTab", "scripting", "storage"],
+  "permissions": ["activeTab", "scripting", "storage", "clipboardRead"],
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
   "action": {
     "default_title": "Cadence",
     "default_popup": "popup.html",
@@ -19,6 +23,15 @@
     "32": "icons/icon-32.png",
     "48": "icons/icon-48.png",
     "128": "icons/icon-128.png"
+  },
+  "commands": {
+    "type-clipboard": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+Y",
+        "mac": "Command+Shift+Y"
+      },
+      "description": "Whisper Mode: type clipboard contents at the cursor"
+    }
   },
   "options_ui": {
     "page": "calibrate.html",

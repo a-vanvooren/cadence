@@ -81,6 +81,49 @@ button {
 button:hover { background: var(--accent-press); color: #fff; }
 button:disabled { opacity: 0.5; cursor: default; }
 
+.buttons { display: flex; gap: 8px; }
+.buttons #go { flex: 1; }
+button.secondary {
+  width: auto;
+  flex: 0 0 auto;
+  background: transparent;
+  color: var(--muted);
+  border: 1px solid var(--border);
+  padding: 9px 14px;
+}
+button.secondary:hover { background: transparent; color: #ff5b67; border-color: #ff5b67; }
+
+/* Whisper Mode toggle */
+.switch {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin: 12px 0 0;
+  cursor: pointer;
+  user-select: none;
+}
+.switch input { position: absolute; opacity: 0; pointer-events: none; }
+.switch-track {
+  width: 36px; height: 20px; border-radius: 20px;
+  background: var(--border); position: relative; transition: background 0.18s;
+  flex: 0 0 auto;
+}
+.switch-thumb {
+  position: absolute; top: 2px; left: 2px; width: 16px; height: 16px;
+  border-radius: 50%; background: #e8eaf0; transition: transform 0.18s;
+}
+.switch input:checked + .switch-track { background: var(--accent); }
+.switch input:checked + .switch-track .switch-thumb { transform: translateX(16px); }
+.switch-label { font-size: 12px; font-weight: 600; }
+
+.whisper-hint {
+  margin: 8px 0 0; font-size: 11px; line-height: 1.5;
+  color: var(--muted); background: var(--panel); border: 1px solid var(--border);
+  border-radius: 8px; padding: 8px 10px;
+}
+.whisper-hint b { color: var(--accent); font-family: ui-monospace, monospace; }
+.whisper-hint[hidden] { display: none; }
+
 .status { margin: 10px 0 0; color: var(--muted); font-size: 11px; min-height: 28px; }
 
 .footer {
@@ -105,3 +148,29 @@ button:disabled { opacity: 0.5; cursor: default; }
 .link-danger { color: #f0808a; }
 .link-danger:hover { color: #ff5b67; }
 .link[hidden] { display: none; }
+
+/* ---- Whisper Mode: a quieter, darker skin ---- */
+body.whisper {
+  --bg: #06070a;
+  --panel: #0d1119;
+  --panel-2: #11161f;
+  --text: #cdd6df;
+  --muted: #6f7a8a;
+  --accent: #37c2b4;
+  --accent-press: #2aa99c;
+  --border: #1a212c;
+  background:
+    repeating-linear-gradient(0deg, rgba(255,255,255,0.012) 0 1px, transparent 1px 3px),
+    radial-gradient(600px 280px at 50% -20%, #0c1620 0%, #06070a 70%);
+}
+body.whisper h1 .tag {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+body.whisper h1 .tag::after { content: ' · whisper'; }
+body.whisper .logo { filter: grayscale(0.35) brightness(0.85); }
+body.whisper .hint { color: #5b6675; }
+body.whisper #go {
+  background: linear-gradient(135deg, #37c2b4, #2f7bd6);
+  box-shadow: 0 0 18px rgba(55,194,180,0.25);
+}

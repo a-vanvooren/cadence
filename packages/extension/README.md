@@ -49,6 +49,22 @@ JSON** to keep a copy. Raw keystrokes never leave your machine.
 - **Colored cursor** — the target field is highlighted and its caret is tinted
   while typing, so you can see where (and when) it's entering text.
 
+### Whisper Mode (discreet, hands-free)
+
+Toggle **Whisper Mode** in the popup. The popup shifts to a quieter, darker skin and:
+
+- **No on-screen markers** — no field highlight, caret tint, or Stop HUD.
+- **Clipboard hotkey** — focus a field and press **Ctrl+Shift+Y** (Mac: ⌘+Shift+Y)
+  to type your latest clipboard contents at the cursor, without opening the popup.
+  (The background worker reads the clipboard, plans with your profile + saved
+  Load/Speed, and types.)
+- **Stop from the extension** — with no on-page Stop button, open the popup and
+  press **Stop**.
+
+Rebind the shortcut at `chrome://extensions/shortcuts`; the popup shows the current
+binding. If the clipboard read is blocked (an unfocused or restricted page), the
+toolbar badge flashes `∅` — focus the page and try again, or use the popup.
+
 ### Profile management (in the popup footer)
 
 - With no profile: shows **"Calibrate your typing →"**.
@@ -72,17 +88,20 @@ JSON** to keep a copy. Raw keystrokes never leave your machine.
 
 | File | Role |
 |------|------|
-| `manifest.json` | MV3 manifest (`activeTab` + `scripting`, popup only) |
-| `popup.html` / `popup.css` | The control panel UI |
-| `popup.js` | Plans keystrokes with the engine, injects + replays them in the active tab |
+| `manifest.json` | MV3 manifest (permissions, command, background, icons) |
+| `popup.html` / `popup.css` | The control panel UI (incl. the Whisper Mode skin) |
+| `popup.js` | Loads profile/settings, plans keystrokes, injects the replay, Stop |
+| `background.js` | Service worker: the Whisper Mode clipboard hotkey |
+| `replay.js` | Shared injector (used by popup + background); HUD, target lock, caret |
 | `engine.js` | Plain-JS port of `@cadence/engine` (`plan()`) |
 | `default-profile.js` | Bundled example profile (used until you calibrate) |
 | `calibrate.html` / `calibrate.css` / `calibrate.js` | The in-extension "Tuning Room" options page |
 | `profile-derive.js` | Turns captured keystrokes into a saved profile |
 | `icons/` | Brand mark — PNG toolbar icons (16/32/48/128) + `logo.svg` for the UI |
 
-No permissions beyond `activeTab` + `scripting`: it only touches the tab you're on
-when you click Type it. No always-on content script, no host permissions.
+Permissions: `activeTab` + `scripting` (touch only the tab you act on),
+`storage` (save your profile/settings locally), and `clipboardRead` (Whisper
+Mode hotkey). No always-on content script; `<all_urls>` is not requested.
 
 ## Production path (later)
 
