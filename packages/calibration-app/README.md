@@ -1,5 +1,11 @@
 # Cadence — Calibration App ("The Tuning Room")
 
+> ℹ️ **A working version of this now ships inside the extension** as its options
+> page — see [`packages/extension`](../extension) (`calibrate.html` +
+> `profile-derive.js`), which captures keystrokes and saves a profile to
+> `chrome.storage.local` with no build step. This package remains the place for a
+> standalone, richer web build (WebGL waveform, generative audio, archetype card).
+
 The capture GUI from [Phase 1](../../docs/phase-1-calibration-gui.md). A static web
 app (no server in the capture path) that records a raw keystroke stream, derives a
 `TypingProfile`, and exports it for the extension.

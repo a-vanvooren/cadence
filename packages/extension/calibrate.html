@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Cadence — Calibration</title>
+    <link rel="stylesheet" href="calibrate.css" />
+  </head>
+  <body>
+    <div class="shell">
+      <header>
+        <h1>Cadence <span class="tag">The Tuning Room</span></h1>
+        <p class="sub">We're tuning an instrument that is you. Type naturally — there's no score.</p>
+      </header>
+
+      <!-- Intro -->
+      <section id="screen-intro" class="screen active">
+        <p>You'll do a few short typing prompts (about 3 minutes total). As you type,
+          you'll see your rhythm drawn live. At the end we build your typing profile and
+          save it to this extension, so it types in <b>your</b> cadence.</p>
+        <ul class="rules">
+          <li>Type the way you normally would — mistakes and all.</li>
+          <li>Don't try to be fast or perfect. We're measuring <i>you</i>, not testing you.</li>
+          <li>Nothing leaves your machine. The profile is stored locally.</li>
+        </ul>
+        <button id="start" class="primary">Start calibration</button>
+      </section>
+
+      <!-- Exercise -->
+      <section id="screen-exercise" class="screen">
+        <div class="ex-head">
+          <span id="ex-step" class="step-pill">Step 1</span>
+          <span id="ex-title" class="ex-title"></span>
+        </div>
+
+        <canvas id="wave" class="wave" width="900" height="120"></canvas>
+
+        <p id="ex-instruction" class="instruction"></p>
+        <div id="target" class="target"></div>
+
+        <textarea id="input" rows="4" autocomplete="off" autocorrect="off"
+          autocapitalize="off" spellcheck="false" placeholder="Type here…"></textarea>
+
+        <div class="ex-foot">
+          <div class="progress"><div id="progress-bar"></div></div>
+          <button id="next" class="primary" disabled>Next</button>
+        </div>
+      </section>
+
+      <!-- Results -->
+      <section id="screen-results" class="screen">
+        <h2>Your Signature</h2>
+        <div id="archetype" class="archetype"></div>
+        <div id="stats" class="stats"></div>
+        <canvas id="sig-wave" class="wave sig" width="900" height="140"></canvas>
+        <div class="actions">
+          <button id="save" class="primary">Save &amp; use this profile</button>
+          <button id="download" class="ghost">Download JSON</button>
+          <button id="redo" class="ghost">Redo calibration</button>
+        </div>
+        <p id="save-status" class="save-status"></p>
+      </section>
+    </div>
+
+    <script type="module" src="calibrate.js"></script>
+  </body>
+</html>

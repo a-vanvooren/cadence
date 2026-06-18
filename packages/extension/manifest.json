@@ -1,11 +1,15 @@
 {
   "manifest_version": 3,
   "name": "Cadence (MVP)",
-  "version": "0.1.0",
-  "description": "Insert text into the focused field using a human typing cadence. No build step — load unpacked.",
-  "permissions": ["activeTab", "scripting"],
+  "version": "0.2.0",
+  "description": "Calibrate your typing, then insert text into the focused field in your own cadence. No build step — load unpacked.",
+  "permissions": ["activeTab", "scripting", "storage"],
   "action": {
     "default_title": "Cadence",
     "default_popup": "popup.html"
+  },
+  "options_ui": {
+    "page": "calibrate.html",
+    "open_in_tab": true
   }
 }

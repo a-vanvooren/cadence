@@ -22,6 +22,22 @@ You'll watch it type character-by-character with human timing, occasional typos,
 backspace/word-delete corrections, burst pauses, and (on *Heavy*) longer thinking
 gaps. Each run uses a fresh random seed, so no two takes are identical.
 
+## Calibrate it to *your* typing
+
+Out of the box the popup uses a bundled example profile. To make it type like
+**you**:
+
+1. Open the popup → click **Calibrate your typing →** (or right-click the
+   extension icon → **Options**). It opens a full-page "Tuning Room" in a new tab.
+2. Do the short typing prompts (~3 min). A live waveform shows your rhythm as you go.
+3. On the results screen, click **Save & use this profile**.
+
+Your profile is derived on-device (speed, keystroke gaps, key-hold time,
+per-pair bigram latencies, error rate + how you correct, and burst rhythm) and
+stored in `chrome.storage.local`. The popup picks it up automatically — the footer
+will switch from "Profile: example" to "Profile: yours". You can also **Download
+JSON** to keep a copy. Raw keystrokes never leave your machine.
+
 ### Tips / troubleshooting
 
 - **"No editable field was focused."** Click into the text box first, then open the
@@ -43,7 +59,9 @@ gaps. Each run uses a fresh random seed, so no two takes are identical.
 | `popup.html` / `popup.css` | The control panel UI |
 | `popup.js` | Plans keystrokes with the engine, injects + replays them in the active tab |
 | `engine.js` | Plain-JS port of `@cadence/engine` (`plan()`) |
-| `default-profile.js` | Bundled example profile (swap for a real one later) |
+| `default-profile.js` | Bundled example profile (used until you calibrate) |
+| `calibrate.html` / `calibrate.css` / `calibrate.js` | The in-extension "Tuning Room" options page |
+| `profile-derive.js` | Turns captured keystrokes into a saved profile |
 
 No permissions beyond `activeTab` + `scripting`: it only touches the tab you're on
 when you click Type it. No always-on content script, no host permissions.

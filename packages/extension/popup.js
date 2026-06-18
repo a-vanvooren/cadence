@@ -4,6 +4,26 @@ import { DEFAULT_PROFILE } from './default-profile.js';
 const $ = (id) => document.getElementById(id);
 const setStatus = (s) => { $('status').textContent = s; };
 
+// Use the calibrated profile if one was saved, otherwise the bundled example.
+let activeProfile = DEFAULT_PROFILE;
+(async () => {
+  try {
+    if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local) {
+      const { cadenceProfile } = await chrome.storage.local.get('cadenceProfile');
+      if (cadenceProfile) {
+        activeProfile = cadenceProfile;
+        $('profile-info').textContent = `Profile: yours (${cadenceProfile.speed.baseWpm} WPM)`;
+      }
+    }
+  } catch { /* fall back to example */ }
+})();
+
+$('calibrate').addEventListener('click', () => {
+  if (typeof chrome !== 'undefined' && chrome.runtime && chrome.runtime.openOptionsPage) {
+    chrome.runtime.openOptionsPage();
+  }
+});
+
 $('go').addEventListener('click', async () => {
   const text = $('text').value;
   if (!text.trim()) {
@@ -14,7 +34,7 @@ $('go').addEventListener('click', async () => {
   const load = $('load').value;
   const speed = parseFloat($('speed').value);
 
-  const { actions, estimatedMs } = plan(text, DEFAULT_PROFILE, {
+  const { actions, estimatedMs } = plan(text, activeProfile, {
     load,
     seed: Date.now() & 0x7fffffff,
   });
