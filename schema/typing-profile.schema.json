@@ -1,0 +1,153 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cadence.dev/schema/typing-profile.schema.json",
+  "title": "Cadence Typing Profile",
+  "description": "Portable behavioral map describing how a single, consenting user physically types. Aggregate statistics only; never raw keystroke logs.",
+  "type": "object",
+  "required": ["version", "meta", "speed", "bigrams", "errors", "rhythm", "cognitive", "fatigue"],
+  "additionalProperties": false,
+  "properties": {
+    "version": {
+      "type": "string",
+      "description": "Semver of the profile schema this document conforms to.",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "meta": {
+      "type": "object",
+      "required": ["id", "createdAt", "layout"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string", "description": "Opaque unique id for this profile." },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "owner": { "type": "string", "description": "Account identity that created the profile (consent stamp)." },
+        "layout": { "type": "string", "description": "Keyboard layout anchor.", "examples": ["qwerty-us", "qwerty-uk", "azerty", "dvorak"] },
+        "locale": { "type": "string", "examples": ["en-US"] },
+        "signature": { "type": "string", "description": "Optional detached signature/HMAC over the profile body for integrity/origin." }
+      }
+    },
+    "speed": {
+      "type": "object",
+      "required": ["baseWpm", "meanInterKeyMs", "stdInterKeyMs"],
+      "additionalProperties": false,
+      "properties": {
+        "baseWpm": { "type": "number", "minimum": 1, "maximum": 400 },
+        "meanInterKeyMs": { "type": "number", "minimum": 1, "description": "Mean steady-state inter-key interval." },
+        "stdInterKeyMs": { "type": "number", "minimum": 0, "description": "Std dev of inter-key interval (log-normal recommended at runtime)." }
+      }
+    },
+    "bigrams": {
+      "type": "object",
+      "description": "Median travel latency (ms) for frequent character pairs. Keys are 2-char strings.",
+      "patternProperties": { "^.{2}$": { "type": "number", "minimum": 0 } },
+      "additionalProperties": false
+    },
+    "trigrams": {
+      "type": "object",
+      "description": "Optional median travel latency (ms) for frequent 3-char sequences.",
+      "patternProperties": { "^.{3}$": { "type": "number", "minimum": 0 } },
+      "additionalProperties": false
+    },
+    "dwell": {
+      "type": "object",
+      "description": "Key-down to key-up hold time and per-key reach cost relative to home row.",
+      "additionalProperties": false,
+      "properties": {
+        "meanMs": { "type": "number", "minimum": 0 },
+        "stdMs": { "type": "number", "minimum": 0 },
+        "perKeyReachMs": {
+          "type": "object",
+          "description": "Extra ms (vs home row) to reach a given key.",
+          "patternProperties": { "^.$": { "type": "number" } },
+          "additionalProperties": false
+        }
+      }
+    },
+    "errors": {
+      "type": "object",
+      "required": ["ratePer100", "correctionStyle", "correctionDelayMs", "typoMix"],
+      "additionalProperties": false,
+      "properties": {
+        "ratePer100": { "type": "number", "minimum": 0, "description": "Typos per 100 characters at the start of a block (before fatigue growth)." },
+        "correctionStyle": {
+          "type": "object",
+          "description": "Probability weights for how a detected error is corrected. Should roughly sum to 1.",
+          "additionalProperties": false,
+          "properties": {
+            "singleBackspace": { "type": "number", "minimum": 0, "maximum": 1 },
+            "backspaceSpam": { "type": "number", "minimum": 0, "maximum": 1 },
+            "ctrlBackspaceWord": { "type": "number", "minimum": 0, "maximum": 1 },
+            "selectRetype": { "type": "number", "minimum": 0, "maximum": 1 }
+          }
+        },
+        "correctionDelayMs": {
+          "type": "object",
+          "description": "Lag between making a mistake and starting to correct it.",
+          "required": ["mean", "std"],
+          "additionalProperties": false,
+          "properties": {
+            "mean": { "type": "number", "minimum": 0 },
+            "std": { "type": "number", "minimum": 0 },
+            "noticeScope": {
+              "type": "string",
+              "description": "Typical point at which errors are noticed.",
+              "enum": ["next-key", "end-of-word", "end-of-clause"]
+            }
+          }
+        },
+        "typoMix": {
+          "type": "object",
+          "description": "Probability weights for the kind of typo produced. Should roughly sum to 1.",
+          "additionalProperties": false,
+          "properties": {
+            "adjacent": { "type": "number", "minimum": 0, "maximum": 1 },
+            "transposition": { "type": "number", "minimum": 0, "maximum": 1 },
+            "doubleLetter": { "type": "number", "minimum": 0, "maximum": 1 },
+            "droppedLetter": { "type": "number", "minimum": 0, "maximum": 1 }
+          }
+        }
+      }
+    },
+    "rhythm": {
+      "type": "object",
+      "required": ["burstLengthWords", "interBurstPauseMs"],
+      "additionalProperties": false,
+      "properties": {
+        "burstLengthWords": { "$ref": "#/$defs/normal" },
+        "interBurstPauseMs": { "$ref": "#/$defs/normal" }
+      }
+    },
+    "cognitive": {
+      "type": "object",
+      "required": ["lexicalHesitationMs", "sentenceEndPauseMs", "capShiftMs"],
+      "additionalProperties": false,
+      "properties": {
+        "lexicalHesitationMs": { "type": "number", "minimum": 0, "description": "Base pre-word hesitation, scaled by word complexity." },
+        "sentenceEndPauseMs": { "type": "number", "minimum": 0 },
+        "midPunctuationPauseMs": { "type": "number", "minimum": 0 },
+        "capShiftMs": { "type": "number", "minimum": 0, "description": "Cost to engage Shift for a capital." },
+        "shiftHandBias": { "type": "string", "enum": ["left", "right", "balanced"] }
+      }
+    },
+    "fatigue": {
+      "type": "object",
+      "required": ["decayRatePerKChar", "errorGrowthPerKChar"],
+      "additionalProperties": false,
+      "properties": {
+        "decayRatePerKChar": { "type": "number", "minimum": 0, "description": "Fractional slowdown per 1000 chars typed." },
+        "errorGrowthPerKChar": { "type": "number", "minimum": 0, "description": "Fractional error-rate growth per 1000 chars typed." },
+        "recoveryOnPause": { "type": "number", "minimum": 0, "maximum": 1, "description": "Fraction of fatigue recovered after a long cognitive pause." }
+      }
+    }
+  },
+  "$defs": {
+    "normal": {
+      "type": "object",
+      "required": ["mean", "std"],
+      "additionalProperties": false,
+      "properties": {
+        "mean": { "type": "number", "minimum": 0 },
+        "std": { "type": "number", "minimum": 0 }
+      }
+    }
+  }
+}

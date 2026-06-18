@@ -1,0 +1,17 @@
+{
+  "name": "cadence",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Typing-personalization suite: profile your own keyboarding and reproduce its cadence when inserting text into web fields.",
+  "license": "MIT",
+  "author": "Alex Van Vooren",
+  "packageManager": "pnpm@9.0.0",
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "pnpm -r build",
+    "typecheck": "pnpm -r typecheck",
+    "demo": "pnpm --filter @cadence/engine demo"
+  }
+}

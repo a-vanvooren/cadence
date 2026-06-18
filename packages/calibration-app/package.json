@@ -1,0 +1,15 @@
+{
+  "name": "@cadence/calibration-app",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Cadence calibration GUI (\"The Tuning Room\"): captures keystrokes and emits a typing profile.",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "build": "echo \"TODO: wire up Vite app build\" && exit 0",
+    "typecheck": "tsc --noEmit || true"
+  },
+  "dependencies": {
+    "@cadence/engine": "workspace:*"
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "manifest_version": 3,
+  "name": "Cadence",
+  "version": "0.1.0",
+  "description": "Insert AI-drafted or clipboard text into web fields using your own typing cadence.",
+  "permissions": ["storage", "activeTab", "scripting"],
+  "optional_permissions": ["debugger"],
+  "optional_host_permissions": ["<all_urls>"],
+  "background": {
+    "service_worker": "src/background.js",
+    "type": "module"
+  },
+  "action": {
+    "default_title": "Cadence",
+    "default_popup": "src/popup.html"
+  },
+  "icons": {
+    "128": "icons/icon-128.png"
+  }
+}

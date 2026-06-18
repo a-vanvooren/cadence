@@ -1,0 +1,19 @@
+{
+  "name": "@cadence/extension",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Cadence Chrome (MV3) extension: command layer, profile storage, and keystroke injector.",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "build": "echo \"TODO: wire up wxt/CRXJS build\" && exit 0",
+    "typecheck": "tsc --noEmit || true"
+  },
+  "dependencies": {
+    "@cadence/engine": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/chrome": "^0.0.268",
+    "typescript": "^5.4.0"
+  }
+}
