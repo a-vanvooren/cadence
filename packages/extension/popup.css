@@ -23,7 +23,12 @@ h1 {
   margin: 0 0 6px;
   font-size: 17px;
   letter-spacing: 0.2px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
+
+.logo { width: 22px; height: 22px; border-radius: 6px; }
 
 .tag {
   font-size: 10px;
@@ -87,6 +92,7 @@ button:disabled { opacity: 0.5; cursor: default; }
   border-top: 1px solid var(--border);
 }
 .profile-info { color: var(--muted); font-size: 11px; }
+.footer-actions { display: flex; align-items: center; gap: 12px; }
 .link {
   width: auto;
   background: none;
@@ -96,3 +102,6 @@ button:disabled { opacity: 0.5; cursor: default; }
   font-weight: 600;
 }
 .link:hover { background: none; color: var(--accent-press); text-decoration: underline; }
+.link-danger { color: #f0808a; }
+.link-danger:hover { color: #ff5b67; }
+.link[hidden] { display: none; }

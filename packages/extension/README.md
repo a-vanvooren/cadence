@@ -38,11 +38,28 @@ stored in `chrome.storage.local`. The popup picks it up automatically — the fo
 will switch from "Profile: example" to "Profile: yours". You can also **Download
 JSON** to keep a copy. Raw keystrokes never leave your machine.
 
+### Controls
+
+- **Stop button** — while typing, a small floating panel appears on the page
+  (top-right) with live progress and a **Stop** button. It stays put even if the
+  popup closes, so you can stop mid-type and change your text.
+- **It stays where you put it** — Cadence locks onto the field that was focused
+  when you pressed *Type it* and keeps writing there. You can click into other
+  fields / do other things while it types.
+- **Colored cursor** — the target field is highlighted and its caret is tinted
+  while typing, so you can see where (and when) it's entering text.
+
+### Profile management (in the popup footer)
+
+- With no profile: shows **"Calibrate your typing →"**.
+- With a saved profile: shows **"Recalibrate →"** (overwrites the old one) plus a
+  **Delete** button that reverts to the bundled example profile.
+
 ### Tips / troubleshooting
 
-- **"No editable field was focused."** Click into the text box first, then open the
+- **"Click into a text field first."** Click into the text box, then open the
   popup and press Type it. (Opening the popup doesn't change the page's focused
-  field, but clicking elsewhere on the page does.)
+  field, but clicking elsewhere on the page does — so focus the field last.)
 - **Heavy load feels slow.** That's intentional (it simulates thinking). Use the
   **Speed 0.3×** option while testing.
 - **Google Docs does nothing.** Expected — Docs renders to a canvas and ignores
@@ -62,6 +79,7 @@ JSON** to keep a copy. Raw keystrokes never leave your machine.
 | `default-profile.js` | Bundled example profile (used until you calibrate) |
 | `calibrate.html` / `calibrate.css` / `calibrate.js` | The in-extension "Tuning Room" options page |
 | `profile-derive.js` | Turns captured keystrokes into a saved profile |
+| `icons/` | Brand mark — PNG toolbar icons (16/32/48/128) + `logo.svg` for the UI |
 
 No permissions beyond `activeTab` + `scripting`: it only touches the tab you're on
 when you click Type it. No always-on content script, no host permissions.

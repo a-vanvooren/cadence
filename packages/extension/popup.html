@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="popup.css" />
   </head>
   <body>
-    <h1>Cadence <span class="tag">MVP</span></h1>
+    <h1><img src="icons/logo.svg" class="logo" alt="" />Cadence <span class="tag">MVP</span></h1>
     <p class="hint">Click into a text box on the page first, then come back and press <b>Type it</b>.</p>
 
     <textarea id="text" rows="5" placeholder="Paste or type the text you want entered in your cadence..."></textarea>
@@ -33,7 +33,10 @@
 
     <div class="footer">
       <span id="profile-info" class="profile-info">Profile: example</span>
-      <button id="calibrate" class="link">Calibrate your typing →</button>
+      <div class="footer-actions">
+        <button id="delete" class="link link-danger" hidden>Delete</button>
+        <button id="calibrate" class="link">Calibrate your typing →</button>
+      </div>
     </div>
 
     <script type="module" src="popup.js"></script>
