@@ -39,6 +39,7 @@ function needsShift(ch: string): boolean {
 }
 
 export function plan(text: string, profile: TypingProfile, ctx: PlanContext = {}): PlanResult {
+  text = text.replace(/\r\n?/g, '\n'); // normalize newlines
   const seed = ctx.seed ?? Math.floor(Math.random() * 2 ** 31);
   const rng: Rng = mulberry32(seed);
   const load = inferLoad(text, ctx);

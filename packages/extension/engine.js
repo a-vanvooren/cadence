@@ -162,6 +162,7 @@ function needsShift(ch) {
 
 // ---- main pipeline ----------------------------------------------------------
 export function plan(text, profile, ctx = {}) {
+  text = String(text).replace(/\r\n?/g, '\n'); // normalize newlines
   const seed = ctx.seed ?? Math.floor(Math.random() * 2 ** 31);
   const rng = mulberry32(seed);
   const load = inferLoad(text, ctx);

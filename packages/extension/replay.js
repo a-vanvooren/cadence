@@ -111,6 +111,15 @@ export function replayInPage(actions, opts) {
     ceRange.collapse(true);
     el.dispatchEvent(new InputEvent('input', { inputType: 'insertText', data: ch, bubbles: true }));
   }
+  function ceNewline() {
+    // A "\n" text node doesn't render in HTML — insert a real <br>.
+    el.dispatchEvent(new InputEvent('beforeinput', { inputType: 'insertLineBreak', bubbles: true, cancelable: true }));
+    const br = document.createElement('br');
+    ceRange.insertNode(br);
+    ceRange.setStartAfter(br);
+    ceRange.collapse(true);
+    el.dispatchEvent(new InputEvent('input', { inputType: 'insertLineBreak', bubbles: true }));
+  }
   function ceBackspace() {
     const n = ceRange.startContainer;
     const o = ceRange.startOffset;
@@ -183,7 +192,7 @@ export function replayInPage(actions, opts) {
           el.dispatchEvent(new InputEvent('input', { inputType: 'deleteWordBackward', bubbles: true }));
         }
       } else {
-        if (a.type === 'key') ceInsert(a.char);
+        if (a.type === 'key') (a.char === '\n' ? ceNewline() : ceInsert(a.char));
         else if (a.type === 'backspace') ceBackspace();
         else if (a.type === 'deleteWord') ceWordDelete();
       }
