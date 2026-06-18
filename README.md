@@ -3,7 +3,16 @@
 > **Working brand name — see [docs/phase-4-branding.md](docs/phase-4-branding.md) for the full shortlist.**
 > *Note: "TypingDNA" (the folder name) is already a registered company in the keystroke-biometrics space, so the product should ship under a distinct name.*
 
-Cadence is a typing-personalization suite. It profiles **your own** physical typing behavior — speed, rhythm, error and correction habits, and the way you pace yourself when a sentence is easy versus hard — and produces a small, portable behavior profile. A companion browser extension can then insert AI-drafted or clipboard text into web inputs using *your* cadence instead of an instantaneous, robotic paste.
+Cadence is a typing-personalization suite. It profiles **your own** physical typing behavior — speed, rhythm, error and correction habits, and the way you pace yourself when a sentence is easy versus hard — and produces a small, portable behavior profile. Cadence then ships as **its own standalone Chrome (MV3) extension** that inserts AI-drafted or clipboard text into web inputs using *your* cadence, instead of an instantaneous, robotic paste.
+
+## How it fits together
+
+Cadence is **not** a plugin for, and does not integrate into, the first-party "Claude for Chrome" extension — that extension is closed and can't be extended by third parties. Instead, Cadence separates the two concerns the product needs:
+
+- **Generate the text** — any LLM. Best path is the Claude API (e.g. `claude-opus-4-8` for quality, `claude-haiku-4-5` for speed/cost); you can also paste text in from the claude.ai web app.
+- **Type it with your cadence** — Cadence's own extension, which owns the command parsing, profile storage, and keystroke injection.
+
+These layers are deliberately decoupled (see [docs/phase-3-architecture.md](docs/phase-3-architecture.md)), so the text source is swappable and the extension stands on its own. Being a standalone extension is also what unlocks the `chrome.debugger`/CDP injection path needed for hardened editors like Google Docs.
 
 ## Why this exists (intended uses)
 
@@ -30,7 +39,7 @@ Please read **[ACCEPTABLE_USE.md](ACCEPTABLE_USE.md)** before building on this. 
 ├── schema/                     # Portable profile format (JSON Schema + example)
 ├── packages/
 │   ├── engine/                 # Core simulation engine (TypeScript, framework-agnostic)
-│   ├── extension/              # Chrome (MV3) extension skeleton + injection notes
+│   ├── extension/              # Standalone Chrome (MV3) extension skeleton + injection notes
 │   └── calibration-app/        # The capture GUI (notes / scaffold)
 ├── ACCEPTABLE_USE.md
 └── LICENSE
